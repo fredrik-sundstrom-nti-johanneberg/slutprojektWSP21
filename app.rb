@@ -15,7 +15,7 @@ get('/showlogin') do
 end 
 
 get('/annons/new') do 
-    slim(:annons)
+    slim(:nyannons)
 end 
 
 post('/login') do
@@ -59,3 +59,11 @@ post('/annons/new') do
     db.execute("INSERT INTO annons (rubrik,bio,pris) VALUES (?,?,?)",rubrik,bio,pris)
     redirect('/')
 end
+
+get('/annons') do 
+
+  db = SQLite3::Database.new('db/databas.db')
+  db.results.as.hash = true
+
+
+end 
