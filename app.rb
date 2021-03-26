@@ -18,6 +18,11 @@ get('/annons/new') do
     slim(:nyannons)
 end 
 
+get('/annons') do
+    slim(:annons)
+end
+
+
 post('/login') do
     username = params[:username]
     password = params[:password]
@@ -61,9 +66,10 @@ post('/annons/new') do
 end
 
 get('/annons') do 
-
+  id = session[:id].to_i
   db = SQLite3::Database.new('db/databas.db')
   db.results.as.hash = true
-
-
+  result = db.execute("SELECT * FROM annons WHERE user_id = ?",id)
+  p "Här är annonserna #{result}"
+  slim(:"annons",locals:{annons:result})  
 end 
