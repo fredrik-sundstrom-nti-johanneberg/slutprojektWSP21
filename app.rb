@@ -19,7 +19,7 @@ get('/annons/new') do
 end 
 
 get('/annons') do
-    slim(:annons)
+    slim(:annonser)
 end
 
 
@@ -65,11 +65,10 @@ post('/annons/new') do
     redirect('/')
 end
 
-get('/annons') do 
-  id = session[:id].to_i
+get('/annonser') do 
   db = SQLite3::Database.new('db/databas.db')
   db.results.as.hash = true
-  result = db.execute("SELECT * FROM annons WHERE user_id = ?",id)
+  result = db.execute("SELECT * FROM annons")
   p "Här är annonserna #{result}"
-  slim(:"annons",locals:{annons:result})  
+  slim(:"annonser", locals:{annonser:result})
 end 
