@@ -10,9 +10,6 @@ get('/') do
     slim(:register)
   end
 
-get('/showlogin') do 
-    slim(:login)
-end 
 
 get('/annons/new') do 
     slim(:nyannons)
@@ -34,7 +31,7 @@ post('/login') do
   
     if BCrypt::Password.new(pwdigest) == password
       session[:id] = id
-      redirect('/annons/new')
+      redirect('/annonser')
     else
       "Fel lösenord!"
     end
@@ -59,16 +56,34 @@ post('/annons/new') do
     rubrik = params[:rubriken]
     bio = params[:bio]
     pris = params[:pris]
+    image = params[:file]
 
+    if params[:file] && params[:file][:filename]
+      filename = params[:file][:filename]
+      file = params[:file][:tempfile]
+      path = "./public/uploads/#{filename}"
+
+      File.open(path, 'wb') do |f|
+        f.write(file.read)
+      end
+    end
     db = SQLite3::Database.new('db/databas.db')
-    db.execute("INSERT INTO annons (rubrik,bio,pris) VALUES (?,?,?)",rubrik,bio,pris)
-    redirect('/')
+    db.execute("INSERT INTO annons (rubrik,bio,pris,image) VALUES (?,?,?,?)",rubrik,bio,pris,image)
+    redirect('/annons/new')
 end
 
 get('/annonser') do 
   db = SQLite3::Database.new('db/databas.db')
-  db.results.as.hash = true
+  db.results_as_hash = true
   result = db.execute("SELECT * FROM annons")
   p "Här är annonserna #{result}"
-  slim(:"annonser", locals:{annonser:result})
+  slim(:annonser, locals:{annonser: result})
 end 
+
+post('/annons/uppdatera') do 
+  db = SQLite3::Database.new('db/databas.db')
+  db.execute("")
+
+
+
+end
