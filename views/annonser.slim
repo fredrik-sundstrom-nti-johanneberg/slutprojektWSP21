@@ -6,10 +6,12 @@ h2 Här är alla anonnser som ligger ute just nu!
         p = annonser["rubrik"]
         p = annonser["bio"]
         p = annonser["pris"]
-        p = annonser["image"]
+        a href="/public/uploads#{annonser["image"]}"
+        
 
 
 a href="/annons/new" Lägg till annonser
+
 
 form action="/annons/uppdatera" method="post"
     input type="text" name="nyrubrik" placeholder="Skriv den nya rubriken"
