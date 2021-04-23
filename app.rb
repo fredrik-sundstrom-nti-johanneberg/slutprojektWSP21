@@ -62,13 +62,14 @@ post('/annons/new') do
       filename = params[:file][:filename]
       file = params[:file][:tempfile]
       path = "./public/uploads/#{filename}"
+      path2 = "/uploads/#{filename}"
 
       File.open(path, 'wb') do |f|
         f.write(file.read)
       end
     end
     db = SQLite3::Database.new('db/databas.db')
-    db.execute("INSERT INTO annons (rubrik,bio,pris,image) VALUES (?,?,?,?)",rubrik,bio,pris,image)
+    db.execute("INSERT INTO annons (rubrik,bio,pris,image) VALUES (?,?,?,?)",rubrik,bio,pris,path2)
     redirect('/annons/new')
 end
 
@@ -81,9 +82,13 @@ get('/annonser') do
 end 
 
 post('/annons/uppdatera') do 
+  user_id = session[:id].to_i
+
+  rubrik = params[:rubriken]
+  bio = params[:bio]
+  pris = params[:pris]
+  image = params[:file]
+
   db = SQLite3::Database.new('db/databas.db')
-  db.execute("")
-
-
-
+  db.execute("UPDATE annons (rubrik,bio,pris) WHERE user_id = ?",rubrik,bio,pris)
 end
