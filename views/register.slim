@@ -1,7 +1,15 @@
 h2 Regestrera dig här!
 
-form action="users/new" method="post"
+
+form action="users/new" method="post" class="registrera"
     input type="text" name="username" placeholder="Användarnamn"
     input type="password" name="password" placeholder="Lösenord"
     input type="password" name="password_confirm" placeholder="Lösenord igen"
     input type="submit" value="Registrera ny användare"/
+
+h2 Har du redan ett konto, logga i här!
+
+form action="login" method="POST" class="registrera"
+    input type="text" name="username" placeholder="Användarnamn"
+    input type="text" name="password" placeholder="Lösenord"
+    input type="submit" value="Logga in!"
