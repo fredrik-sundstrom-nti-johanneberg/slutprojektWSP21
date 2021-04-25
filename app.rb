@@ -92,3 +92,4 @@ post('/annons/uppdatera') do
   db = SQLite3::Database.new('db/databas.db')
   db.execute("UPDATE annons (rubrik,bio,pris) WHERE user_id = ?",rubrik,bio,pris)
 end
+
