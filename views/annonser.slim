@@ -7,13 +7,10 @@ h2 Här är alla anonnser som ligger ute just nu!
         p = annonser["bio"]
         p = annonser["pris"]
         img src="#{annonser["image"]}"/
+        form method="POST" action="/delete"
+            input type="submit" value="Radera annonsen"/
 
 
 a href="/annons/new" Lägg till annonser
 
 
-form action="/annons/uppdatera" method="post"
-    input type="text" name="nyrubrik" placeholder="Skriv den nya rubriken"
-    input type="text" name="nybio" placeholder="Ändra beskrivningen" 
-    input type="text" name="nyttpris" placeholder="Nytt pris"
-    input type="submit" value="Uppdatera annonsen"/
