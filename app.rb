@@ -12,11 +12,11 @@ get('/') do
 
 
 get('/annons/new') do 
-    slim(:nyannons)
+    slim(:new)
 end 
 
 get('/annons') do
-    slim(:annonser)
+    slim(:show)
 end
 
 
@@ -78,12 +78,12 @@ get('/annonser') do
   db.results_as_hash = true
   result = db.execute("SELECT * FROM annons")
   p "Här är annonserna #{result}"
-  slim(:annonser, locals:{annonser: result})
+  slim(:show, locals:{annonser: result})
 end 
 
-post('/annons/uppdatera') do 
+post('/update') do 
   user_id = session[:id].to_i
-
+  
   rubrik = params[:rubriken]
   bio = params[:bio]
   pris = params[:pris]
@@ -91,5 +91,11 @@ post('/annons/uppdatera') do
 
   db = SQLite3::Database.new('db/databas.db')
   db.execute("UPDATE annons (rubrik,bio,pris) WHERE user_id = ?",rubrik,bio,pris)
+
 end
 
+post('/delete') do 
+
+db = SQLite3::Database.new('db/databas.db')
+db.execute("DELETE FROM annons WHERE ")
+end
