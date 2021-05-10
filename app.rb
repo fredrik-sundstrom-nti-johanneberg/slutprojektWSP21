@@ -16,7 +16,7 @@ get('/annons/new') do
 end 
 
 get('/annons') do
-    slim(:show)
+    slim(:index)
 end
 
 
@@ -78,8 +78,17 @@ get('/annonser') do
   db.results_as_hash = true
   result = db.execute("SELECT * FROM annons")
   p "Här är annonserna #{result}"
-  slim(:show, locals:{annonser: result})
+  slim(:index, locals:{annonser: result})
 end 
+
+post('/redigera') do 
+  id = params[:id].to_i
+  db = SQLite3::Database.new('db/databas.db')
+  db.results_as_hash = true
+  result = db.execute("SELECT * FROM annons WHERE id = ?",id).first
+  slim(:edit, locals:{result:result})
+end
+
 
 post('/update') do 
   user_id = session[:id].to_i
