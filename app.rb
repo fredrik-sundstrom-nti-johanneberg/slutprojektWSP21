@@ -8,7 +8,7 @@ enable :sessions
 
 get('/') do
     slim(:register)
-  end
+end
 
 
 get('/annons/new') do 
@@ -90,21 +90,20 @@ post('/redigera') do
 end
 
 
-post('/update') do 
-  user_id = session[:id].to_i
-  
+post('/annonser/:id/update') do 
+  id = params[:id].to_i
   rubrik = params[:rubriken]
   bio = params[:bio]
   pris = params[:pris]
   image = params[:file]
-
   db = SQLite3::Database.new('db/databas.db')
-  db.execute("UPDATE annons (rubrik,bio,pris) WHERE user_id = ?",rubrik,bio,pris)
+  db.execute("UPDATE annons SET rubrik=?,bio=?,pris=?,image=? WHERE id = ?",rubrik,bio,pris,image,id)
 
 end
 
-post('/delete') do 
-
-db = SQLite3::Database.new('db/databas.db')
-db.execute("DELETE FROM annons WHERE ")
+post('/annonser/:id/delete') do 
+  id = params[:id].to_i
+  db = SQLite3::Database.new('db/databas.db')
+  db.execute("DELETE FROM annons WHERE id = ?",id)
+  redirect('/annons')
 end
