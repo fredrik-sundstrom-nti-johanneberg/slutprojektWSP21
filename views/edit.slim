@@ -1,20 +1,8 @@
-annonser.each do |annonser|
-    .box_annons
-        p = annonser["rubrik"]
-        p = annonser["bio"]
-        p = annonser["pris"]
-        img src="#{annonser["image"]}"/
-        form method="POST" action="/redigeraannons"
-            input type="submit" value="Uppdatera annonsen"/
-        form method="POST" action="/delete"
-            input type="submit" value="Radera annonsen"/
-        form method="POST" action="/redigera"
-            input type="submit" value="Redigera annonsen"
-
-
-form method="post" action="updateraannons"
-    input type="text" name="rubriken" placeholder="Ändra rubriken"
-    input type="text" name="bio" placeholder="Ändra beskrivningen på annonsen"
-    input type="text" name="pris" placeholder="Justera priset på annonsen"
-    input type="file" name="file" placeholder="Lägg till en ny bild"
+form method="post" action="/annonser/#{result['id']}/update"
+    input type="text" name="rubriken" value="#{result['rubrik']}"
+    input type="text" name="bio" value="#{result['bio']}"
+    input type="text" name="pris" value="#{result['pris']}"
+    input type="file" name="file" value="#{result['image']}"
     input type="submit" value="Uppdatera annonsen"
+
+    
