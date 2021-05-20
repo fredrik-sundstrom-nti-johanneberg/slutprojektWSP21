@@ -10,7 +10,6 @@ get('/') do
     slim(:register)
 end
 
-
 get('/annons/new') do 
     slim(:new)
 end 
@@ -18,7 +17,6 @@ end
 get('/annons') do
     slim(:index)
 end
-
 
 post('/login') do
     username = params[:username]
@@ -70,7 +68,7 @@ post('/annons/new') do
     end
     db = SQLite3::Database.new('db/databas.db')
     db.execute("INSERT INTO annons (rubrik,bio,pris,image) VALUES (?,?,?,?)",rubrik,bio,pris,path2)
-    redirect('/annons/new')
+    redirect('/annons')
 end
 
 get('/annonser') do 
@@ -89,7 +87,6 @@ post('/redigera') do
   slim(:edit, locals:{result:result})
 end
 
-
 post('/annonser/:id/update') do 
   id = params[:id].to_i
   rubrik = params[:rubriken]
@@ -98,7 +95,7 @@ post('/annonser/:id/update') do
   image = params[:file]
   db = SQLite3::Database.new('db/databas.db')
   db.execute("UPDATE annons SET rubrik=?,bio=?,pris=?,image=? WHERE id = ?",rubrik,bio,pris,image,id)
-
+  redirect('/annons')
 end
 
 post('/annonser/:id/delete') do 
@@ -106,4 +103,12 @@ post('/annonser/:id/delete') do
   db = SQLite3::Database.new('db/databas.db')
   db.execute("DELETE FROM annons WHERE id = ?",id)
   redirect('/annons')
+end
+
+get('/annons/:id/edit') do
+  id = params[:id].to_i
+  db = SQLite3::Database.new('db/databas.db')
+  db.results_as_hash = true
+  result = db.execute("SELECT * FROM annons WHERE id = ?",id).first
+  slim(:edit, locals:{result:result})
 end
